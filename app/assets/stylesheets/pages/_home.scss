@@ -1,3 +1,6 @@
-body {
-  color: red;
+.plan-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  margin: 8rem;
 }

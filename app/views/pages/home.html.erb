@@ -1,3 +1,19 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
-<p>Test</p>
+<div class="plan-grid" data-controller="pricing">
+  <div class="monthly-plan" data-action="load@window->pricing#getMonthlyPrice" data-controller="checkout">
+    <h2>Monthly Plan</h2>
+    <p>Price: <span data-pricing-target="monthly">...</span></p>
+    <button data-product="38562" data-action="click->checkout#openCheckout" data-checkout-target="monthlyCheckout">Subscribe</button>
+  </div>
+  <div class="annual-plan" data-action="load@window->pricing#getAnnualPrice" data-controller="checkout">
+    <h2>Annual Plan</h2>
+    <p>Price: <span data-pricing-target="annual">...</span></p>
+    <button data-product="38566" data-action="click->checkout#openCheckout" data-checkout-target="annualCheckout">Subscribe</button>
+  </div>
+
+  <script type="text/javascript">
+    Paddle.Environment.set('sandbox');
+    Paddle.Setup({
+      vendor: 601
+    });
+  </script>
+</div>
