@@ -1,0 +1,55 @@
+<h1 id='subscription-heading'>My Subscription</h1>
+<div class="profile-container">
+  <div class="subscription-information">
+    <% if @last_subscription.nil? %>
+      <p>You have successfully cancelled your subscription. We're sorry to see you go! Resubscribe to a <%= link_to "plan", root_path %> at any time.</p>
+    <% else %>
+      <p>Hello <%= @user_email %> 👋🏻</p>
+      <h4>Subscription Details</h4>
+      <div class="subscription-details">
+        <p>Your chosen plan:</p>
+        <p><%= @plan_name %></p>
+        <p>Your subscription ID:</p>
+        <p><%= @subscription_id %></p>
+        <p>Your subscription is:</p>
+        <p><%= @state.capitalize%></p>
+        <p>You subscribed on:</p>
+        <p><%= @signup_date.to_date%></p>
+      </div>
+      <h4>Last Payment</h4>
+      <div class="subscription-details">
+        <p>You paid with:</p>
+        <p><%= @payment_information['payment_method'].capitalize%></p>
+        <p>Card type:</p>
+        <p><%= @payment_information['card_type'].capitalize%></p>
+        <p>Last four digits</p>
+        <p><%= @payment_information['last_four_digits']%></p>
+        <p>Expiry date</p>
+        <p><%= @payment_information['expiry_date']%></p>
+      </div>
+      <h4>Next Payment</h4>
+      <% if @last_subscription["next_payment"] %>
+        <p> You will next be billed on <%= @next_payment_date %> for <%= @next_payment_amount %> <%= @next_payment_currency %></p>
+      <% else %>
+        <p>Your subscription was paused at <%= @paused_at.to_date %>. This will take effect on <%= @paused_from.to_date %>.</p>
+      <% end %>
+  </div>
+  <div class="subscription-management">
+    <h4>Subscription Management</h4>
+    <% if @last_subscription['plan_id'] == 42491%>
+    <% else %>
+      <p>Want to pay 20% less and upgrade to an Annual Plan?</p>
+      <td><%= button_to "Upgrade to Annual", action: :upgrade %></td>
+    <% end %>
+    <% if @last_subscription["next_payment"] %>
+      <p>Don't need your plan right now and want to take a break?</p>
+      <td><%= button_to "Pause Subscription", action: :pause_subscription %></td>
+    <% else %>
+      <p>Ready to come back?</p>
+      <td><%= button_to "Unpause Subscription", action: :unpause_subscription %></td>
+    <% end %>
+    <p>Cancel at anytime</p>
+    <td><%= button_to "Cancel Subscription", action: :cancel_subscription %></td>
+  </div>
+  <% end %>
+</div>

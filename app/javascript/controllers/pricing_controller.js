@@ -9,7 +9,7 @@ export default class extends Controller {
       url: 'https://sandbox-checkout.paddle.com/api/2.0/prices',
       dataType: 'jsonp',
       data: {
-        product_ids: "38562"
+        product_ids: "42490"
       },
       success: function (data) {
         monthlyPrice.innerText = `${data.response.products[0].currency} ${data.response.products[0].price.gross}`;
@@ -23,7 +23,7 @@ export default class extends Controller {
       url: 'https://sandbox-checkout.paddle.com/api/2.0/prices',
       dataType: 'jsonp',
       data: {
-        product_ids: "38566"
+        product_ids: "42491"
       },
       success: function (data) {
         annualPrice.innerText = `${data.response.products[0].currency} ${data.response.products[0].price.gross}`;

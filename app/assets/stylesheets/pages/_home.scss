@@ -2,5 +2,54 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-items: center;
-  margin: 8rem;
+  margin: 12rem;
+}
+
+.checkout-container {
+  display: flex;
+  justify-content: center;
+}
+
+.success-page {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 200px;
+}
+
+.subscription-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 65%;
+  margin-bottom: 20px;
+}
+
+.profile-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-left: 40px;
+  padding-inline: 100px;
+}
+
+button {
+  background-color: white;
+  border-radius: 4px;
+  border: solid black 2px;
+}
+
+button:hover {
+  font-weight: 600;
+  // background-color: white;
+  // border-radius: 4px;
+  // border: solid black 2px;
+}
+
+#subscription-heading {
+  padding-left: 100px;
+  padding-top: 30px;
+}
+
+.subscription-management p {
+  margin-bottom: 4px;
+  padding-top: 8px;
 }
