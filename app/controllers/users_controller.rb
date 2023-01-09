@@ -12,7 +12,7 @@ class UsersController < ApplicationController
 
     request = Net::HTTP::Post.new(url)
     request["Content-Type"] = 'application/x-www-form-urlencoded'
-    request.body = "vendor_id=9943&vendor_auth_code=7b8536d92a0e8545ba487fef4befc868342164c89cad96090b&plan_id=&state=&page=&results_per_page="
+    request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&plan_id=&state=&page=&results_per_page="
 
     response = http.request(request)
     @response = JSON.parse(response.read_body)
@@ -48,7 +48,7 @@ class UsersController < ApplicationController
     request = Net::HTTP::Post.new(url)
     request["Content-Type"] = 'application/x-www-form-urlencoded'
     if @last_subscription
-      request.body = "vendor_id=9943&vendor_auth_code=7b8536d92a0e8545ba487fef4befc868342164c89cad96090b&plan=#{@last_subscription['plan_id']}"
+      request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&plan=#{@last_subscription['plan_id']}"
 
       response = http.request(request)
       @list_plan_response = JSON.parse(response.read_body)
@@ -66,7 +66,7 @@ class UsersController < ApplicationController
 
     request = Net::HTTP::Post.new(url)
     request["Content-Type"] = 'application/x-www-form-urlencoded'
-    request.body = "vendor_id=9943&vendor_auth_code=7b8536d92a0e8545ba487fef4befc868342164c89cad96090b&plan_id=&state=&page=&results_per_page="
+    request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&plan_id=&state=&page=&results_per_page="
 
     response = http.request(request)
     @response = JSON.parse(response.read_body)
@@ -82,7 +82,7 @@ class UsersController < ApplicationController
 
     request = Net::HTTP::Post.new(url)
     request["Content-Type"] = 'application/x-www-form-urlencoded'
-    request.body = "vendor_id=9943&vendor_auth_code=7b8536d92a0e8545ba487fef4befc868342164c89cad96090b&subscription_id=#{@subscription_id}"
+    request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&subscription_id=#{@subscription_id}"
 
     response = http.request(request)
     puts response.read_body
@@ -98,7 +98,7 @@ class UsersController < ApplicationController
 
     request = Net::HTTP::Post.new(url)
     request["Content-Type"] = 'application/x-www-form-urlencoded'
-    request.body = "vendor_id=9943&vendor_auth_code=7b8536d92a0e8545ba487fef4befc868342164c89cad96090b&plan_id=&state=&page=&results_per_page="
+    request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&plan_id=&state=&page=&results_per_page="
 
     response = http.request(request)
     @response = JSON.parse(response.read_body)
@@ -114,7 +114,7 @@ class UsersController < ApplicationController
 
     request = Net::HTTP::Post.new(url)
     request["Content-Type"] = 'application/x-www-form-urlencoded'
-    request.body = "vendor_id=9943&vendor_auth_code=7b8536d92a0e8545ba487fef4befc868342164c89cad96090b&subscription_id=#{@subscription_id}&pause=true"
+    request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&subscription_id=#{@subscription_id}&pause=true"
 
     response = http.request(request)
     @response = JSON.parse(response.read_body)
@@ -131,7 +131,7 @@ class UsersController < ApplicationController
 
     request = Net::HTTP::Post.new(url)
     request["Content-Type"] = 'application/x-www-form-urlencoded'
-    request.body = "vendor_id=9943&vendor_auth_code=7b8536d92a0e8545ba487fef4befc868342164c89cad96090b&plan_id=&state=&page=&results_per_page="
+    request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&plan_id=&state=&page=&results_per_page="
 
     response = http.request(request)
     @response = JSON.parse(response.read_body)
@@ -147,7 +147,7 @@ class UsersController < ApplicationController
 
     request = Net::HTTP::Post.new(url)
     request["Content-Type"] = 'application/x-www-form-urlencoded'
-    request.body = "vendor_id=9943&vendor_auth_code=7b8536d92a0e8545ba487fef4befc868342164c89cad96090b&subscription_id=#{@subscription_id}&pause=false"
+    request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&subscription_id=#{@subscription_id}&pause=false"
 
     response = http.request(request)
     @response = JSON.parse(response.read_body)
@@ -164,7 +164,7 @@ class UsersController < ApplicationController
 
     request = Net::HTTP::Post.new(url)
     request["Content-Type"] = 'application/x-www-form-urlencoded'
-    request.body = "vendor_id=9943&vendor_auth_code=7b8536d92a0e8545ba487fef4befc868342164c89cad96090b&plan_id=&state=&page=&results_per_page="
+    request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&plan_id=&state=&page=&results_per_page="
 
     response = http.request(request)
     @response = JSON.parse(response.read_body)
@@ -180,7 +180,7 @@ class UsersController < ApplicationController
 
     request = Net::HTTP::Post.new(url)
     request["Content-Type"] = 'application/x-www-form-urlencoded'
-    request.body = "vendor_id=9943&vendor_auth_code=7b8536d92a0e8545ba487fef4befc868342164c89cad96090b&subscription_id=#{@subscription_id}&plan_id=42491&prorate=false&bill_immediately=true"
+    request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&subscription_id=#{@subscription_id}&plan_id=42491&prorate=false&bill_immediately=true"
 
     response = http.request(request)
     puts response.read_body
