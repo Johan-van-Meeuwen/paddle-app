@@ -19,15 +19,9 @@ class UsersController < ApplicationController
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
-<<<<<<< HEAD
     request = Net::HTTP::Get.new(url)
     request["Content-Type"] = 'application/json'
     request["Authorization"] = 'Bearer 7b8536d92a0e8545ba487fef4befc868342164c89cad96090b'
-=======
-    request = Net::HTTP::Post.new(url)
-    request["Content-Type"] = 'application/x-www-form-urlencoded'
-    request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&plan_id=&state=&page=&results_per_page="
->>>>>>> bbef108fa99e47f657f715d110776e9e89ed685d
 
     response = http.request(request)
     response = JSON.parse(response.read_body)
@@ -49,7 +43,6 @@ class UsersController < ApplicationController
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
-<<<<<<< HEAD
     request = Net::HTTP::Get.new(url)
     request["Content-Type"] = 'application/json'
     request["Authorization"] = 'Bearer 7b8536d92a0e8545ba487fef4befc868342164c89cad96090b'
@@ -149,12 +142,6 @@ class UsersController < ApplicationController
 
       request = Net::HTTP::Post.new(endpoint.path, headers)
       request.body = body
-=======
-    request = Net::HTTP::Post.new(url)
-    request["Content-Type"] = 'application/x-www-form-urlencoded'
-    if @last_subscription
-      request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&plan=#{@last_subscription['plan_id']}"
->>>>>>> bbef108fa99e47f657f715d110776e9e89ed685d
 
       response = http.request(request)
       response_body = response.body
@@ -330,14 +317,8 @@ class UsersController < ApplicationController
     http = Net::HTTP.new(endpoint.host, endpoint.port)
     http.use_ssl = true
 
-<<<<<<< HEAD
     request = Net::HTTP::Post.new(endpoint.path, headers)
     request.body = body
-=======
-    request = Net::HTTP::Post.new(url)
-    request["Content-Type"] = 'application/x-www-form-urlencoded'
-    request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&plan_id=&state=&page=&results_per_page="
->>>>>>> bbef108fa99e47f657f715d110776e9e89ed685d
 
     response = http.request(request)
 
@@ -345,21 +326,7 @@ class UsersController < ApplicationController
 
     parsed_response = JSON.parse(response_body)
 
-<<<<<<< HEAD
     redirect_to "/"
-=======
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-    request = Net::HTTP::Post.new(url)
-    request["Content-Type"] = 'application/x-www-form-urlencoded'
-    request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&subscription_id=#{@subscription_id}"
-
-    response = http.request(request)
-    puts response.read_body
-    redirect_to "/my_profile"
->>>>>>> bbef108fa99e47f657f715d110776e9e89ed685d
   end
 
   def list_transaction_information
@@ -394,7 +361,6 @@ class UsersController < ApplicationController
       grand_total = transaction['details']['totals']['grand_total']
       item_prices = transaction['items']
 
-<<<<<<< HEAD
       url = URI.parse("https://sandbox-api.paddle.com/transactions/#{id}/invoice")
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true
@@ -404,11 +370,6 @@ class UsersController < ApplicationController
       request["Authorization"] = 'Bearer 7b8536d92a0e8545ba487fef4befc868342164c89cad96090b'
       response = http.request(request)
       response = JSON.parse(response.read_body)
-=======
-    request = Net::HTTP::Post.new(url)
-    request["Content-Type"] = 'application/x-www-form-urlencoded'
-    request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&subscription_id=#{@subscription_id}&pause=true"
->>>>>>> bbef108fa99e47f657f715d110776e9e89ed685d
 
       receipt_url = response['data']['url']
 
@@ -438,39 +399,14 @@ class UsersController < ApplicationController
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
-<<<<<<< HEAD
     request = Net::HTTP::Get.new(url)
     request["Content-Type"] = 'application/json'
     request["Authorization"] = 'Bearer 7b8536d92a0e8545ba487fef4befc868342164c89cad96090b'
-=======
-    request = Net::HTTP::Post.new(url)
-    request["Content-Type"] = 'application/x-www-form-urlencoded'
-    request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&plan_id=&state=&page=&results_per_page="
->>>>>>> bbef108fa99e47f657f715d110776e9e89ed685d
 
     response = http.request(request)
     response = JSON.parse(response.read_body)
 
-<<<<<<< HEAD
     @address_list =  response['data']
-=======
-    @subscription_id = @last_subscription["subscription_id"]
-
-    url = URI("https://sandbox-vendors.paddle.com/api/2.0/subscription/users/update")
-
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-    request = Net::HTTP::Post.new(url)
-    request["Content-Type"] = 'application/x-www-form-urlencoded'
-    request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&subscription_id=#{@subscription_id}&pause=false"
-
-    response = http.request(request)
-    @response = JSON.parse(response.read_body)
-    @paused_at = @response["paused_at"]
-    redirect_to "/my_profile"
->>>>>>> bbef108fa99e47f657f715d110776e9e89ed685d
   end
 
   def list_businesses
@@ -481,37 +417,13 @@ class UsersController < ApplicationController
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
-<<<<<<< HEAD
     request = Net::HTTP::Get.new(url)
     request["Content-Type"] = 'application/json'
     request["Authorization"] = 'Bearer 7b8536d92a0e8545ba487fef4befc868342164c89cad96090b'
-=======
-    request = Net::HTTP::Post.new(url)
-    request["Content-Type"] = 'application/x-www-form-urlencoded'
-    request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&plan_id=&state=&page=&results_per_page="
->>>>>>> bbef108fa99e47f657f715d110776e9e89ed685d
 
     response = http.request(request)
     response = JSON.parse(response.read_body)
 
-<<<<<<< HEAD
     @business_list =  response['data']
-=======
-    @subscription_id = @last_subscription["subscription_id"]
-
-    url = URI("https://sandbox-vendors.paddle.com/api/2.0/subscription/users/update")
-
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-    request = Net::HTTP::Post.new(url)
-    request["Content-Type"] = 'application/x-www-form-urlencoded'
-    request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&subscription_id=#{@subscription_id}&plan_id=42491&prorate=false&bill_immediately=true"
-
-    response = http.request(request)
-    puts response.read_body
-    redirect_to "/my_profile"
->>>>>>> bbef108fa99e47f657f715d110776e9e89ed685d
   end
 end
