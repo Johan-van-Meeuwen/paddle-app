@@ -338,15 +338,9 @@ class UsersController < ApplicationController
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
-<<<<<<< HEAD
     request = Net::HTTP::Get.new(url)
     request["Content-Type"] = 'application/json'
     request["Authorization"] = 'Bearer 7b8536d92a0e8545ba487fef4befc868342164c89cad96090b'
-=======
-    request = Net::HTTP::Post.new(url)
-    request["Content-Type"] = 'application/x-www-form-urlencoded'
-    request.body = "vendor_id={VENDOR_ID}&vendor_auth_code={VENDOR_AUTH_CODE}&plan_id=&state=&page=&results_per_page="
->>>>>>> bbef108fa99e47f657f715d110776e9e89ed685d
 
     response = http.request(request)
     response = JSON.parse(response.read_body)
