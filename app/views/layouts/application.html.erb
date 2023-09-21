@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>PaddleApp</title>
+    <title>Paddle Billing App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= favicon_link_tag 'paddle-logo.png' %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
-    <%# <script src="https://staging-cdn.paddle.dev/paddle/paddle.js"></script> %>
+    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
   </head>
 
   <body>

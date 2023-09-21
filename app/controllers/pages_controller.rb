@@ -6,4 +6,7 @@ class PagesController < ApplicationController
 
   def success
   end
+
+  def review
+  end
 end

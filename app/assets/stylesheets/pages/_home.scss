@@ -1,8 +1,51 @@
+.pricing-title {
+  display: flex;
+  flex-direction: column;
+  height: 40vh;
+  position: relative;
+  overflow: hidden;
+  align-items: center;
+}
+
+.pricing-title img {
+  position: absolute;
+  width: auto;
+  max-height: 70%;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+.pricing-title h1 {
+  position: absolute;
+  width: auto;
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+  bottom: 20%;
+}
+
 .plan-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-items: center;
-  margin: 12rem;
+}
+
+.monthly-plan {
+  display: flex;
+  flex-direction: column;
+  border: black 1px solid;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+
+.annual-plan {
+  display: flex;
+  flex-direction: column;
+  border: black 1px solid;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
 }
 
 .checkout-container {
@@ -26,7 +69,7 @@
 
 .profile-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 50% 50%;
   padding-left: 40px;
   padding-inline: 100px;
 }
@@ -52,4 +95,22 @@ button:hover {
 .subscription-management p {
   margin-bottom: 4px;
   padding-top: 8px;
+}
+
+.hidden {
+  display: none;
+}
+
+.transaction_information {
+  grid-column: 2;
+}
+
+#review {
+  display: flex;
+  justify-content: center;
+}
+
+#review-container {
+  display: flex;
+  justify-content: space-evenly;
 }

@@ -1,55 +1,222 @@
-<h1 id='subscription-heading'>My Subscription</h1>
+<h1 id='subscription-heading'><span style="font-weight: 900"><%= @business_name %>'s</span> Very Serious Business Account</h1>
 <div class="profile-container">
   <div class="subscription-information">
-    <% if @last_subscription.nil? %>
-      <p>You have successfully cancelled your subscription. We're sorry to see you go! Resubscribe to a <%= link_to "plan", root_path %> at any time.</p>
-    <% else %>
-      <p>Hello <%= @user_email %> 👋🏻</p>
-      <h4>Subscription Details</h4>
-      <div class="subscription-details">
-        <p>Your chosen plan:</p>
-        <p><%= @plan_name %></p>
-        <p>Your subscription ID:</p>
-        <p><%= @subscription_id %></p>
-        <p>Your subscription is:</p>
-        <p><%= @state.capitalize%></p>
-        <p>You subscribed on:</p>
-        <p><%= @signup_date.to_date%></p>
-      </div>
-      <h4>Last Payment</h4>
-      <div class="subscription-details">
-        <p>You paid with:</p>
-        <p><%= @payment_information['payment_method'].capitalize%></p>
-        <p>Card type:</p>
-        <p><%= @payment_information['card_type'].capitalize%></p>
-        <p>Last four digits</p>
-        <p><%= @payment_information['last_four_digits']%></p>
-        <p>Expiry date</p>
-        <p><%= @payment_information['expiry_date']%></p>
-      </div>
-      <h4>Next Payment</h4>
-      <% if @last_subscription["next_payment"] %>
-        <p> You will next be billed on <%= @next_payment_date %> for <%= @next_payment_amount %> <%= @next_payment_currency %></p>
-      <% else %>
-        <p>Your subscription was paused at <%= @paused_at.to_date %>. This will take effect on <%= @paused_from.to_date %>.</p>
+    <p>Welcome, <%= @customer_email %>!</p>
+    <h3>Your Subscription</h3>
+    <p>Status: <%= @subscription_status.capitalize %></p>
+    <p>Your subscription will renew at <%= @next_billing_date %> for <%= @next_billing_amount %>.</p>
+    <p>Your <strong><%= @current_product_description %></strong> has <strong><%= @current_quantity_transaction %></strong> team members.</p>
+
+    <div>
+      <h3>Your Addresses</h3>
+      <% @address_list.each do |address| %>
+        <%= address['id'] %>
+        <p><%= address['first_line'] %>, <%= address['second_line'] %>, <%= address['city'] %>, <%= address['city'] %>, <%= address['postal_code'] %>, <%= address['country_code'] %></p>
       <% end %>
-  </div>
-  <div class="subscription-management">
-    <h4>Subscription Management</h4>
-    <% if @last_subscription['plan_id'] == 42491%>
-    <% else %>
-      <p>Want to pay 20% less and upgrade to an Annual Plan?</p>
-      <td><%= button_to "Upgrade to Annual", action: :upgrade %></td>
+      <h3>Your Businesses</h3>
+      <% @business_list.each do |business| %>
+        <p><%= business['id'] %></p>
+        <ul>
+          <li>Business Name: <%= business['name'] %></li>
+          <li>Tax Number: <%= business['tax_identifier'] %></li>
+        </ul>
+      <% end %>
+    </div>
+
+    <p class="hidden">Customer ID: <%= @customer_id %></p>
+    <p class="hidden">Address ID: <%= @address_id %></p>
+    <p class="hidden">Checkout ID: <%= @checkout_id %></p>
+    <p class="hidden">Transaction ID: <%= @transaction_id %></p>
+    <p class="hidden">Subscription ID: <span id="subscription_id"><%= @subscription_id %></span></p>
+    <% if @business_id %>
+      <p class="hidden">Business ID: <%= @business_id %></p>
     <% end %>
-    <% if @last_subscription["next_payment"] %>
-      <p>Don't need your plan right now and want to take a break?</p>
-      <td><%= button_to "Pause Subscription", action: :pause_subscription %></td>
-    <% else %>
-      <p>Ready to come back?</p>
-      <td><%= button_to "Unpause Subscription", action: :unpause_subscription %></td>
-    <% end %>
-    <p>Cancel at anytime</p>
-    <td><%= button_to "Cancel Subscription", action: :cancel_subscription %></td>
+
+    <h3>Upgrade To Pro</h3>
+    <p>Monthly Pro Plan costs $60.00/user (20% off when more than 10 seats! 🏷️)</p>
+    <label for="go-pro" style="display: inline-flex; align-items: center;">
+      <span>Want To Go Pro?</span>
+      <input type="checkbox" id="go-pro" name="go-pro" style="margin-left: 10px;" onclick="showProUsers()">
+    </label>
+    <div id="pro-users" style="display: none">
+      <label for="pro-users-counter">How many Pro users?</label>
+      <input type="number" id="pro-users-counter" name="pro-users-counter" value="<%= @quantity %>" min="1" max="999" disabled />
+      <button id="pro-users-decrement" onclick="decrementProUsers()">-</button>
+      <button id="pro-users-increment" onclick="incrementProUsers()">+</button>
+      <div>
+        <table>
+          <tr>
+            <th><p></p></th>
+            <th><p></p></th>
+          </tr>
+          <tr>
+            <td>To Pay Now:</td>
+            <td id="pro-preview-prorated-charge"></td>
+          </tr>
+          <tr>
+            <td>To Renew on <span id="pro-preview-next-charge-date"></span>:</td>
+            <td id="pro-preview-next-charge"></td>
+          </tr>
+          <tr>
+            <td><em>Immediate Transaction Discount:</em></td>
+            <td id="immediate-discount-field">–</td>
+          </tr>
+          <tr>
+            <td><em>Recurring Discount:</em></td>
+            <td id="recurring-discount-field">–</td>
+          </tr>
+          <tr>
+            <td>
+              <label for="add-support" style="display: inline-flex; align-items: center;">
+                <span>Add Pro Priority Support for additional $40.00/user?</span>
+                <input type="checkbox" id="add-support" name="add-support" style="margin-left: 10px;">
+              </label>
+            </td>
+          </tr>
+        </table>
+        <button id="pro-upgrade-now-button">Upgrade Now</button>
+      </div>
+    </div>
+    <div>
+      <h3>Cancel Your Subscription</h3>
+      <%= button_to "Cancel Subscription", action: "cancel_subscription" %>
+    </div>
   </div>
-  <% end %>
+  <div class="transaction_information">
+    <h3>Transaction History</h3>
+    <% @amended_transaction_list.each do |transaction| %>
+      <p><%= transaction[:id] %> [<%= transaction[:status].capitalize %>]</p>
+      <ul>
+        <li>Total:<%= sprintf("$%.2f", transaction[:grand_total].to_i/100.0) %></li>
+        <ul>
+          <% transaction[:item_prices].each do |item_price| %>
+            <li><%= item_price["price"]["description"] %>: <%= item_price["quantity"] %>x quantity</li>
+            <%# <% transaction[item_prices]['price']['description'] transaction[:item_prices]['price']['quantity'] %>
+          <% end %>
+        </ul>
+        <li><a href="<%= transaction[:receipt_url] %>">Download Invoice</a></li>
+      </ul>
+    <% end %>
+  </div>
 </div>
+
+<script>
+  var goProField = document.getElementById("go-pro");
+  var inputField = document.getElementById("pro-users-counter");
+  var proUsersDecrement = document.getElementById("pro-users-decrement");
+  var proUsersIncrement = document.getElementById("pro-users-increment");
+  var subscription_id = document.getElementById("subscription_id").innerText;
+  var proUpgradeButton = document.getElementById("pro-upgrade-now-button");
+  var supportBox = document.getElementById('add-support');
+
+  function showProUsers() {
+    var proUsersCounter = document.getElementById("pro-users");
+    if (goProField.checked === true) {
+      proUsersCounter.style.display = "";
+    } else {
+      proUsersCounter.style.setProperty("display", "none")
+    }
+  }
+
+  function incrementProUsers() {
+    var currentValue = parseInt(inputField.value);
+    if (currentValue < 999) {
+      inputField.value = currentValue + 1;
+    }
+  }
+
+  function decrementProUsers() {
+    var currentValue = parseInt(inputField.value);
+    if (currentValue > 1) {
+      inputField.value = currentValue - 1;
+    }
+  }
+
+  function previewProUpgradePrice() {
+    let numberOfProUsers = inputField.value
+    let supportBoxChecked = supportBox.checked
+
+    let params = new URLSearchParams();
+    params.append("numberOfProUsers", numberOfProUsers)
+    params.append("subscription_id", subscription_id)
+    params.append("supportBoxChecked", supportBoxChecked)
+
+    fetch("my_profile/preview_pro_upgrade?" + params)
+      .then(response => response.json())
+      .then(data => {
+        let proPreviewProratedChargeField = document.getElementById("pro-preview-prorated-charge")
+        let proPreviewNextChargeField = document.getElementById("pro-preview-next-charge")
+        let proPreviewNextChargeDateField = document.getElementById("pro-preview-next-charge-date")
+        let proPreviewProratedCharge = data.data.immediate_transaction.details.totals.grand_total
+        let proPreviewNextCharge = data.data.next_transaction.details.totals.grand_total
+        let proPreviewNextChargeDate = data.data.next_transaction.billing_period.starts_at
+        let proPreviewProratedChargeFormatted = (proPreviewProratedCharge / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+        let proPreviewNextChargeFormatted = (proPreviewNextCharge / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+        let date = new Date(proPreviewNextChargeDate)
+        let proPreviewNextChargeDateFormatted = date.toLocaleDateString("en-US", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric"
+        });
+
+        let immediateDiscountField = document.getElementById("immediate-discount-field")
+        let recurringDiscountField = document.getElementById("recurring-discount-field")
+
+        if (data.data.discount !== null) {
+          console.log(data.data)
+          let immediateDiscountAmount = data.data.immediate_transaction.details.totals.discount
+          let recurringDiscountAmount = data.data.next_transaction.details.totals.discount
+
+          immediateDiscountField.innerText = (immediateDiscountAmount / 100).toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          });
+
+          recurringDiscountField.innerText = (recurringDiscountAmount / 100).toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          });
+        } else {
+          immediateDiscountField.innerText = "-"
+          recurringDiscountField.innerText = "–"
+        }
+
+        proPreviewProratedChargeField.innerText = proPreviewProratedChargeFormatted
+        proPreviewNextChargeField.innerText = proPreviewNextChargeFormatted
+        proPreviewNextChargeDateField.innerText = proPreviewNextChargeDateFormatted
+      })
+      .catch(error => {
+        console.error("Error previewing pro upgrade:", error);
+      });
+  }
+
+  function upgradePro() {
+    let upgradeNumberOfUsers = parseInt(inputField.value)
+    let supportBoxChecked = supportBox.checked
+
+    let params = new URLSearchParams();
+    params.append("upgradeNumberOfUsers", upgradeNumberOfUsers)
+    params.append("subscription_id", subscription_id)
+    params.append("supportBoxChecked", supportBoxChecked)
+
+    fetch("my_profile/pro_upgrade?" + params)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        location.reload(true);
+      })
+      .catch(error => {
+        console.error("Error upgrading to pro:", error);
+      });
+  }
+
+  goProField.addEventListener("click", previewProUpgradePrice)
+  proUsersDecrement.addEventListener("click", previewProUpgradePrice)
+  proUsersIncrement.addEventListener("click", previewProUpgradePrice)
+  supportBox.addEventListener("click", previewProUpgradePrice)
+  proUpgradeButton.addEventListener("click", upgradePro)
+</script>

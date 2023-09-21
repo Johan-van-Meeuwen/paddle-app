@@ -1,13 +1,114 @@
+<div class="pricing-title">
+  <img src="https://thenounproject.com/api/private/icons/320469/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="">
+  <h1>The Very Serious Business Company</h1>
+</div>
 <div class="plan-grid" data-controller="pricing">
-  <div class="monthly-plan" data-action="load@window->pricing#getMonthlyPrice" data-controller="checkout">
-    <h2>Monthly Plan</h2>
-    <p>Price: <span data-pricing-target="monthly">...</span></p>
-    <button data-product="42490" data-action="click->checkout#openCheckout" data-checkout-target="monthlyCheckout">Subscribe</button>
+  <div class="monthly-plan" data-controller="checkout">
+    <h4>Basic Monthly Plan</h4>
+    <h2>$30/user</h2>
+    <label for="monthly-users">Users:</label>
+    <div>
+      <input type="number" id="monthly-users" name="annual-users" value="1" min="1" max="999" disabled />
+      <button id="monthly-decrement" onclick="decrementMonthlyUsers()">-</button>
+      <button id="monthly-increment" onclick="incrementMonthlyUsers()">+</button>
+    </div>
+    <label for="monthly-onboarding-support">
+      <input type="checkbox" id="monthly-onboarding-support" name="monthly-onboarding-support" />
+      Dedicated Onboarding Support <br>
+      ($200 one-off fee)
+    </label>
+    <h2>Total: <span id="monthly-preview-price">$30.00</span></h2>
+    <a
+      href='#!'
+      data-action="click->checkout#openCheckout"
+    >
+      Buy now
+    </a>
   </div>
-  <div class="annual-plan" data-action="load@window->pricing#getAnnualPrice" data-controller="checkout">
-    <h2>Annual Plan</h2>
-    <p>Price: <span data-pricing-target="annual">...</span></p>
-    <button data-product="42491" data-action="click->checkout#openCheckout" data-checkout-target="annualCheckout">Subscribe</button>
+  <div class="annual-plan" data-controller="checkout">
+    <h4>Basic Annual Plan</h4>
+    <h2>$300/user</h2>
+    <label for="annual-users">Users:</label>
+    <div>
+      <input type="number" id="annual-users" name="annual-users" value="1" min="1" max="999" disabled />
+      <button id="annual-decrement" onclick="decrementAnnualUsers()">-</button>
+      <button id="annual-increment" onclick="incrementAnnualUsers()">+</button>
+    </div>
+    <label for="onboarding-support">
+      <input type="checkbox" id="annual-onboarding-support" name="annual-onboarding-support" />
+      Dedicated Onboarding Support <br>
+      ($200 one-off fee)
+    </label>
+    <a
+      href='#!'
+      data-action="click->checkout#openCheckout"
+    >
+      Buy now
+    </a>
   </div>
 </div>
-<div class="checkout-container"></div>
+
+<div id="review">
+  <a href="/review">Review</a>
+</div>
+
+<script>
+  function incrementMonthlyUsers() {
+    var inputField = document.getElementById("monthly-users");
+    var currentValue = parseInt(inputField.value);
+    if (currentValue < 999) {
+      inputField.value = currentValue + 1;
+    }
+  }
+
+  function decrementMonthlyUsers() {
+    var inputField = document.getElementById("monthly-users");
+    var currentValue = parseInt(inputField.value);
+    if (currentValue > 1) {
+      inputField.value = currentValue - 1;
+    }
+  }
+
+  function incrementAnnualUsers() {
+    var inputField = document.getElementById("annual-users");
+    var currentValue = parseInt(inputField.value);
+    if (currentValue < 999) {
+      inputField.value = currentValue + 1;
+    }
+  }
+
+  function decrementAnnualUsers() {
+    var inputField = document.getElementById("annual-users");
+    var currentValue = parseInt(inputField.value);
+    if (currentValue > 1) {
+      inputField.value = currentValue - 1;
+    }
+  }
+</script>
+
+<script>
+  function fetchMonthlyPreviewTransaction() {
+    let monthlyQuantity = document.getElementById("monthly-users").value;
+    let monthlyCheckboxValue = document.getElementById("monthly-onboarding-support").checked;
+
+    let params = new URLSearchParams();
+    params.append("monthlyQuantity", monthlyQuantity);
+    params.append("monthlyCheckboxValue", monthlyCheckboxValue);
+
+    fetch("/preview_transaction?" + params)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("monthly-preview-price").textContent = (data.data.details.totals.total / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
+      })
+      .catch(error => {
+        console.error("Error fetching preview transaction:", error);
+      });
+  }
+
+  let monthlyDecrement = document.getElementById('monthly-decrement');
+  monthlyDecrement.addEventListener('click', fetchMonthlyPreviewTransaction);
+  let monthlyIncrement = document.getElementById('monthly-increment');
+  monthlyIncrement.addEventListener('click', fetchMonthlyPreviewTransaction);
+  let monthlyOnboarding = document.getElementById('monthly-onboarding-support');
+  monthlyOnboarding.addEventListener('click', fetchMonthlyPreviewTransaction);
+</script>
